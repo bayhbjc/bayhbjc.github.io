@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .box {
+            width: 500px;
+            height: 800px;
+            /* background-color: red; */
+            margin: 0 auto;
+            background-color: #565049;
+        }
+
+        .box1 {
+            width: 100%;
+            height: 700px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .box3 {
+            width: 100%;
+            height: 70px;
+            position: relative;
+        }
+
+        .box2 {
+            width: 100%;
+            height: 100px;
+            position: relative;
+        }
+
+        .box2 audio {
+            width: 75%;
+            height: 55px;
+            position: absolute;
+            top: 44px;
+            left: 62.5px;
+        }
+
+        .qian {
+            width: 0;
+            height: 0;
+            border: 20px solid transparent;
+            border-right-color: rgb(231, 224, 224);
+            position: absolute;
+            top: 55px;
+        }
+
+        .hou {
+            width: 0;
+            height: 0;
+            border: 20px solid transparent;
+            border-left-color: rgb(231, 224, 224);
+            position: absolute;
+            top: 55px;
+            right: 0;
+        }
+
+        .box1 h3 {
+            width: 100%;
+            height: 50px;
+            position: absolute;
+            top: 325px;
+        }
+
+        .active {
+            color: red;
+        }
+
+        ul {
+            margin: 0;
+            padding: 0;
+            list-style: none;
+        }
+
+        .container {
+            height: 650px;
+            overflow-y: scroll;
+        }
+
+        .container::-webkit-scrollbar {
+            width: 0 !important
+        }
+
+        .container ul {
+            transition: all 0.6s;
+            text-align: center;
+        }
+
+        .container li {
+            color: #c2c0bd;
+            height: 45px;
+            line-height: 30px;
+        }
+
+        .container li.active {
+            /* 歌词放大效果 */
+            transform: scale(1.5);
+            color: greenyellow;
+        }
+        .qianh{
+            width: 5px;
+            height: 30px;
+            background-color: white;
+            position: absolute;
+            top: -15px;
+        }
+        .houh{
+            width: 5px;
+            height: 30px;
+            background-color: white;
+            position: absolute;
+            top: -15px;
+            right: 0px;
+        }
+        .box3 span{
+            font-size: 20px;
+            position: absolute;
+            top: 15px;
+            left: 205px;
+            color: white;
+        }
+        .box3 .a{
+            font-size: 15px;
+            position: absolute;
+            top: 45px;
+            left: 222px;
+        }
+        .left{
+            font-size: 30px;
+            color: white;
+            position: absolute;
+            top: 5px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="box">
+        <div class="box1">
+            <div class="box3">
+                <span>情非得已</span>
+                <span class="a">汤小康</span>
+                <div class="left">&lt;</div>
+            </div>
+            <div class="container">
+                <ul class="wordList">
+                </ul>
+            </div>
+        </div>
+        <div class="box2">
+            <div class="qian"><div class="qianh"></div></div>
+            <audio controls src="https://music.163.com/song/media/outer/url?id=33894312.mp3"></audio>
+            <div class="hou"><div class="houh"></div></div>
+        </div>
+    </div>
+    <script src="./index.js"></script>
+</body>
+
+</html>

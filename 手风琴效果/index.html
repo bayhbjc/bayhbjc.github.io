@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="utf-8" />
+	<title></title>
+	<style type="text/css">
+		* {
+			margin: 0;
+			padding: 0;
+		}
+
+		ul li {
+			list-style: none;
+		}
+
+		#main {
+			width: 100%;
+			height: 260px;
+			margin: 0 auto;
+			position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+		}
+
+		.top {
+			width: 100%;
+		}
+
+		#main ul li {
+			width: 200px;
+			height: 260px;
+			float: left;
+			position: relative;
+			transition: all 1s;
+		}
+
+		#main ul li div {
+			width: 100%;
+			height: 460px;
+		}
+
+		#main ul li div.des {
+			position: absolute;
+			left: 0;
+			top: 0;
+			background: rgba(0, 0, 0, .3);
+		}
+
+		#main ul li div.des h4 {
+			color: #FFF;
+			font-size: 30px;
+			padding: 30px;
+			width: 30px;
+			margin: 0 auto;
+
+		}
+	</style>
+	
+</head>
+
+<body>
+	<div id="main">
+		<ul>
+			<li>
+				<div class="des">
+					<h4>帝皇铠甲</h4>
+				</div>
+				<div style="background: url(./image/a.png) center;"></div>
+			</li>
+			<li>
+				<div class="des">
+					<h4>炎龙铠甲</h4>
+				</div>
+
+				<div style="background: url(./image/b.png) center;"></div>
+			</li>
+			<li>
+				<div class="des">
+					<h4>风鹰铠甲</h4>
+				</div>
+				<div style="background: url(./image/c.png) center;"></div>
+			</li>
+			<li>
+				<div class="des">
+					<h4>黑犀铠甲</h4>
+				</div>
+				<div style="background: url(./image/d.png) center;"></div>
+			</li>
+			<li>
+				<div class="des">
+					<h4>地虎铠甲</h4>
+				</div>
+				<div style="background: url(./image/e.png) center;"></div>
+			</li>
+			<li>
+				<div class="des">
+					<h4>雪獒铠甲</h4>
+				</div>
+				<div style="background: url(./image/f.png) center;"></div>
+			</li>
+		</ul>
+	</div>
+	<script src="./jQuery.min.js"></script>
+	<script>
+
+		$(function () {
+			$('#main>ul li').mouseover(function () {
+				/*
+					水平手风琴效果
+						1)鼠标移入
+							1>宽度改为400,其他它改成160
+							2>隐藏文字
+						2)鼠标移出
+							1>显示文字
+							2>宽度改为200
+				 */
+				$(this).css('width', '400px');
+				$(this).siblings().css('width', '160px');
+
+				$(this).find('.des').hide();
+				$(this).siblings().find('.des').show();
+
+
+
+			})
+
+			$('#main>ul li').mouseout(function () {
+
+				$(this).css('width', '200px');
+				$(this).siblings().css('width', '200px');
+				if ($(this).index() == $(this).index()) {
+					$(this).find('.des').show();
+				} else {
+					$(this).find('.des').hide();
+					$(this).siblings().find('.des').hide();
+
+				}
+				// $(this).find('.des').show();
+
+
+
+			})
+
+
+		})
+
+	</script>
+</body>
+
+</html>
