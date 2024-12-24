@@ -4,182 +4,175 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
+    <title>拼图小游戏</title>
     <style>
-        .orgin {
-            width: 300px;
-            height: 300px;
-        }
-
-        .orgin img {
-            width: 100%;
-        }
-
-        ul.stage {
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
             margin: 0;
             padding: 0;
-            list-style: none;
+        }
 
-            width: 300px;
-            height: 300px;
-            background-color: rgb(240, 240, 240);
+        #difficulty {
+            margin: 20px 0;
+            font-size: 16px;
+            padding: 5px;
+        }
 
+        .container {
             display: flex;
-            flex-wrap: wrap;
-            align-content: flex-start;
-            padding: 10px;
+            justify-content: center;
+            align-items: flex-start;
+            gap: 20px;
+            margin-top: 20px;
+        }
 
+        .container .sample,
+        .container #puzzle-container {
+            border: 1px solid #ccc;
+            background-color: rgb(240, 240, 240);
             position: relative;
         }
 
-        ul.stage li {
-            width: 96px;
-            height: 96px;
-            overflow: hidden;
-            position: absolute;
-            top: 0;
-            left: 0;
-            margin: 2px;
-            transition: all 0.3s;
-            border-radius: 5px;
+        .container .sample img {
+            display: block;
+            width: 218px;  /* 更小的样板图尺寸 */
+            height: 218px;
+            border: 1px solid #ddd;
         }
 
-        ul.stage li.active {
+        #puzzle-container {
+            display: grid;
+        }
+
+        #puzzle-container div {
+            width: 72px;  /* 更小的拼图块尺寸 */
+            height: 72px;  /* 更小的拼图块尺寸 */
+            position: absolute;
+            transition: all 0.3s;
+            border-radius: 5px;
+            overflow: hidden;
+            border: 1px solid #ddd;
+            box-sizing: border-box;
+        }
+
+        #puzzle-container div.active {
             box-shadow: 0 0 8px 0 #ff0000;
         }
 
-        ul.stage li img {
-            width: 300%;
+        #puzzle-container div img {
             position: absolute;
-            top: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover; /* 保证图片居中并覆盖整个拼图块 */
             left: 0;
+            top: 0;
         }
     </style>
 </head>
 
 <body>
-    <div class="orgin">
-        <img src="./image/拼图小游戏.png" alt="" />
+    <h1>拼图小游戏</h1>
+    <select id="difficulty">
+        <option value="3">3x3</option>
+        <option value="6">6x6</option>
+        <option value="9">9x9</option>
+    </select>
+
+    <div class="container">
+        <!-- 样板图 -->
+        <div class="sample">
+            <img src="./image/拼图小游戏.png" alt="样板图片" />
+        </div>
+
+        <!-- 拼图区域 -->
+        <div id="puzzle-container"></div>
     </div>
 
-    <ul class="stage">
-        <li><img src="./image/拼图小游戏.png" alt="" /></li>
-        <li><img src="./image/拼图小游戏.png" alt="" /></li>
-        <li><img src="./image/拼图小游戏.png" alt="" /></li>
-        <li><img src="./image/拼图小游戏.png" alt="" /></li>
-        <li><img src="./image/拼图小游戏.png" alt="" /></li>
-        <li><img src="./image/拼图小游戏.png" alt="" /></li>
-        <li><img src="./image/拼图小游戏.png" alt="" /></li>
-        <li><img src="./image/拼图小游戏.png" alt="" /></li>
-        <li><img src="./image/拼图小游戏.png" alt="" /></li>
-    </ul>
-
     <script>
-        var stage = document.querySelector(".stage");
-        var lis = stage.querySelectorAll("li");
+        function createPuzzleGrid(size) {
+            const container = document.getElementById("puzzle-container");
+            container.innerHTML = ""; // 清空之前的拼图
 
-        var arr = [];
-        for (var i = 0; i < lis.length; i++) {
-            arr.push(i);
+            // 设置容器大小
+            container.style.width = `${size * 72 + 2}px`;  // 调整容器宽度
+            container.style.height = `${size * 72 + 2}px`;  // 调整容器高度
+
+            const arr = Array.from({ length: size * size }, (_, i) => i);
+            arr.sort(() => Math.random() - 0.5);
+
+            for (let i = 0; i < size * size; i++) {
+                const div = document.createElement("div");
+                div.style.left = `${(arr[i] % size) * 72 + 2}px`;  // 调整拼图块的偏移量
+                div.style.top = `${Math.floor(arr[i] / size) * 72 + 2}px`;  // 调整拼图块的偏移量
+                div.dataset.o = i;
+                div.dataset.c = arr[i];
+
+                const img = document.createElement("img");
+                img.src = "./image/拼图小游戏.png";
+                img.style.width = `${size * 72}px`;  // 调整图片显示的尺寸
+                img.style.height = `${size * 72}px`;  // 调整图片显示的尺寸
+                img.style.left = `-${(i % size) * 68}px`;  // 调整图片的偏移量
+                img.style.top = `-${Math.floor(i / size) * 68}px`;  // 调整图片的偏移量
+
+                div.appendChild(img);
+                container.appendChild(div);
+            }
+
+            // 添加事件监听
+            handleClick(size);
         }
-        arr.sort(() => Math.random() - 0.5);
-        lis.forEach((li, index) => {
-            // 设置自定义属性
-            li.dataset.o = index;
-            li.dataset.c = arr[index];
-            li.style.top = Math.floor(li.dataset.c / 3) * 100 + 10 + "px";
-            li.style.left = (li.dataset.c % 3) * 100 + 10 + "px";
 
-            // 读取自定义属性
-            // console.log(li.dataset.o);
+        function handleClick(size) {
+            const container = document.getElementById("puzzle-container");
+            const divs = container.querySelectorAll("div");
 
-            var img = li.querySelector("img");
-            img.style.top = Math.floor(index / 3) * -96 + "px";
-            img.style.left = (index % 3) * -96 + "px";
-        });
+            let clickedDivs = [];
+            container.onclick = function (event) {
+                const target = event.target;
+                let div = target.tagName === "IMG" ? target.parentNode : target;
 
-        var clickedLis = [];
-        stage.onclick = function (event) {
-            var target = event.target;
-            // 如果点击图片 那么就找img的父级
-            if (target.tagName == "IMG") {
-                target = target.parentNode;
-            }
-            // console.log(target);
-            // 如果是li就...
-            if (target.tagName === "LI") {
-                // 获取当前的 位置序号
-                // console.log(target.dataset.c);
-                clickedLis.push(target);
-                target.classList.add("active");
+                if (div.tagName === "DIV") {
+                    clickedDivs.push(div);
+                    div.classList.add("active");
 
-                // 判断长度是2两个交换
-                if (clickedLis.length === 2) {
-                    setTimeout(() => {
-                        // 交换data-c
-                        var tmp = clickedLis[0].dataset.c;
-                        clickedLis[0].dataset.c = clickedLis[1].dataset.c;
-                        clickedLis[1].dataset.c = tmp;
+                    if (clickedDivs.length === 2) {
+                        setTimeout(() => {
+                            // 交换位置
+                            const tmp = clickedDivs[0].dataset.c;
+                            clickedDivs[0].dataset.c = clickedDivs[1].dataset.c;
+                            clickedDivs[1].dataset.c = tmp;
 
-                        // 重新计算交换完成的li的位置
-                        clickedLis.forEach((li) => {
-                            li.style.top = Math.floor(li.dataset.c / 3) * 100 + 10 + "px";
-                            li.style.left = (li.dataset.c % 3) * 100 + 10 + "px";
-                        });
+                            clickedDivs.forEach((div) => {
+                                div.style.top = `${Math.floor(div.dataset.c / size) * 72 + 2}px`;
+                                div.style.left = `${(div.dataset.c % size) * 72 + 2}px`;
+                            });
 
-                        // 等待过渡完成之后
-                        console.log(777);
-
-                        var canClick = true;
-                        clickedLis[0].ontransitionend = function () {
-                            if (canClick) {
-                                canClick = false;
-                                console.log(this, 123);
-
-                                // =================
-                                // 判断是否拼图完成
-                                // 遍历所有li 判断是不是 每一个都 data-o 和 data-c 相等
-                                var isFinished = Array.prototype.slice.call(lis).every((li) => {
-                                    return li.dataset.o == li.dataset.c;
-                                });
-
-                                // 如果完成就提示
-                                if (isFinished) {
-                                    alert("拼图完成");
-                                }
-                                // ==============
-
-                                setTimeout(() => {
-                                    canClick = true;
-                                }, 100);
+                            // 判断是否完成
+                            const isFinished = Array.from(divs).every(div => div.dataset.o === div.dataset.c);
+                            if (isFinished) {
+                                alert("拼图完成！");
                             }
-                        };
 
-                        // debugger;
-                        // 交换完成之后清除数组
-                        clickedLis[0].classList.remove("active");
-                        clickedLis[1].classList.remove("active");
-                        clickedLis = [];
-                    }, 300);
+                            // 重置状态
+                            clickedDivs[0].classList.remove("active");
+                            clickedDivs[1].classList.remove("active");
+                            clickedDivs = [];
+                        }, 300);
+                    }
                 }
-            }
-        };
-    </script>
+            };
+        }
 
-    <script>
-        var arr = [1, 2, 3, 4, 5];
-        // var arr = [1, 3, 3, 7, 0, 5];
-        // 判断是不是都是奇数
-        var res = arr.every((item) => item % 2);
-        console.log(res);
-
-        arr.sort(function (a, b) {
-            // return b - a;
-            return Math.random() - 0.5;
+        // 监听难度选择
+        document.getElementById("difficulty").addEventListener("change", function () {
+            const size = parseInt(this.value);
+            createPuzzleGrid(size);
         });
-    </script>
 
-    <!-- 作业:加上难度选择 6*6 9*9 -->
+        // 初始化
+        createPuzzleGrid(3);
+    </script>
 </body>
 
 </html>

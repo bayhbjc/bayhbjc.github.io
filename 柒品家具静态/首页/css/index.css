@@ -136,7 +136,7 @@
 }
 /* (1). :link a标签未访问时样式 */
 a:link {
-    color:white;
+    color:#666;
 }
 /* (2). :visited a标签访问后的样式 */
 a:visited {
